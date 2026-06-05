@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaCare – Trusted Pharmacy &amp; Medication Delivery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #ebe6dd;
+      --bg-raise: #f0ece4;
+      --bg-press: #ddd8cf;
+      --shadow-light: rgba(255,255,255,0.85);
+      --shadow-dark: rgba(180,165,145,0.55);
+      --nm-out: 6px 6px 16px var(--shadow-dark), -5px -5px 14px var(--shadow-light);
+      --nm-in: inset 4px 4px 10px var(--shadow-dark), inset -4px -4px 10px var(--shadow-light);
+      --accent: #0a6e4e;
+      --accent2: #065c3f;
+      --accent-light: #e8f5f0;
+      --accent-glow: rgba(10,110,78,0.22);
+      --red: #c0392b;
+      --blue: #0d5b92;
+      --glass: rgba(255,255,255,0.45);
+      --glass-border: rgba(255,255,255,0.75);
+      --text: #1e1a14;
+      --text-muted: #6b6051;
+      --text-dim: #9e9285;
+      --green: #0a6e4e;
+      --radius: 18px;
+      --wa: #25d366;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(235,230,221,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(180,165,145,0.3);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(180,165,145,0.3);
+    }
+
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.3rem; font-weight: 800; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .nav-brand-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1rem;
+      box-shadow: var(--nm-out);
+    }
+
+    .nav-links { display: flex; gap: 22px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase;
+      transition: color 0.3s; font-weight: 600;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; padding: 10px 22px; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer; letter-spacing: 0.5px;
+      box-shadow: 0 4px 14px var(--accent-glow); transition: all 0.3s; text-transform: uppercase;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 22px var(--accent-glow); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh; display: flex; align-items: center;
+      padding: 60px 24px; position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(10,110,78,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-light); border: 1px solid rgba(10,110,78,0.2);
+      border-radius: 50px; padding: 6px 16px; font-size: 0.75rem;
+      color: var(--accent); letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 22px; font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900;
+      line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px;
+    }
+
+    .hero h1 .hl {
+      background: linear-gradient(135deg, var(--accent), #16a34a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero p {
+      color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 32px; max-width: 480px;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; padding: 14px 30px; border-radius: 50px;
+      font-size: 0.92rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 6px 22px var(--accent-glow); transition: all 0.3s;
+      text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--accent-glow); }
+
+    .btn-ghost {
+      background: var(--bg-raise); color: var(--text-muted);
+      border: none; padding: 14px 30px; border-radius: 50px;
+      font-size: 0.92rem; font-weight: 600; cursor: pointer;
+      box-shadow: var(--nm-out); transition: all 0.3s;
+      text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-ghost:hover { color: var(--accent); transform: translateY(-1px); }
+    .btn-ghost:active { box-shadow: var(--nm-in); }
+
+    /* ── HERO CARD ── */
+    .hero-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 28px; padding: 32px; backdrop-filter: blur(20px);
+      box-shadow: var(--nm-out);
+    }
+
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .stat-pill {
+      background: var(--bg-raise); border-radius: 16px; padding: 18px 16px;
+      box-shadow: var(--nm-out); text-align: center;
+    }
+
+    .stat-icon { font-size: 1.4rem; color: var(--accent); margin-bottom: 8px; }
+    .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--text); }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+    /* ── SECTIONS ── */
+    section { padding: 70px 24px; }
+
+    .section-label {
+      display: inline-block; font-size: 0.72rem; letter-spacing: 3px;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 12px; font-weight: 700;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800;
+      letter-spacing: -0.5px; margin-bottom: 14px; color: var(--text);
+    }
+
+    .section-sub {
+      color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; max-width: 520px;
+    }
+
+    .section-header { margin-bottom: 50px; text-align: center; }
+    .section-header .section-sub { margin: 0 auto; }
+
+    .max-w { max-width: 1100px; margin: 0 auto; }
+
+    /* ── SLIDESHOW ── */
+    #gallery { background: var(--bg-raise); }
+
+    .slideshow-wrap { max-width: 860px; margin: 0 auto; }
+
+    .slideshow-outer {
+      border-radius: 28px; padding: 5px;
+      background: linear-gradient(135deg, rgba(10,110,78,0.3), rgba(255,255,255,0.6), rgba(10,110,78,0.2));
+      box-shadow: var(--nm-out);
+    }
+
+    .slideshow-inner {
+      border-radius: 24px; overflow: hidden;
+      position: relative; aspect-ratio: 16/9; background: #0a1a14;
+    }
+
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; }
+    .slide.active { opacity: 1; z-index: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .slide-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(10,20,15,0.85));
+      padding: 30px 24px 18px; font-size: 0.88rem;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.3px; z-index: 2;
+    }
+
+    .slide-progress {
+      position: absolute; bottom: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), #16a34a);
+      transition: width 0.1s linear; z-index: 3;
+    }
+
+    .slide-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 22px; }
+
+    .slide-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--bg-raise); border: none; color: var(--text-muted);
+      font-size: 0.9rem; cursor: pointer; box-shadow: var(--nm-out);
+      transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+    }
+    .slide-btn:hover { color: var(--accent); box-shadow: 0 4px 14px var(--accent-glow); }
+    .slide-btn:active { box-shadow: var(--nm-in); }
+
+    .slide-dots { display: flex; gap: 8px; align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); cursor: pointer; transition: all 0.3s; opacity: 0.4; }
+    .dot.active { width: 22px; border-radius: 4px; background: var(--accent); opacity: 1; }
+
+    /* ── FEATURES ── */
+    #about { background: var(--bg); }
+
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: var(--bg-raise); border-radius: 22px; padding: 28px 24px;
+      box-shadow: var(--nm-out); transition: transform 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-4px); }
+
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-light), rgba(10,110,78,0.08));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--accent); margin-bottom: 18px;
+      box-shadow: var(--nm-out);
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .feature-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── ORDER SECTION ── */
+    #order { background: var(--bg-raise); }
+
+    .order-container { max-width: 720px; margin: 0 auto; }
+
+    .order-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 28px; padding: 36px 32px; backdrop-filter: blur(20px);
+      box-shadow: var(--nm-out);
+    }
+
+    .order-intro {
+      text-align: center; margin-bottom: 30px;
+    }
+
+    .order-intro .icon-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; color: #fff; margin: 0 auto 16px;
+      box-shadow: 0 6px 22px var(--accent-glow);
+    }
+
+    .order-intro h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; }
+    .order-intro p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; max-width: 420px; margin: 0 auto; }
+
+    /* Drug rows */
+    #drug-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+
+    .drug-row {
+      display: grid; grid-template-columns: 1fr 100px auto;
+      gap: 10px; align-items: center;
+    }
+
+    .nm-input {
+      background: var(--bg-raise); border: 1px solid rgba(180,165,145,0.4);
+      border-radius: 12px; padding: 11px 14px; color: var(--text);
+      font-size: 0.88rem; outline: none; box-shadow: var(--nm-in);
+      transition: border-color 0.3s; font-family: inherit; width: 100%;
+    }
+    .nm-input:focus { border-color: var(--accent); box-shadow: var(--nm-in), 0 0 0 2px rgba(10,110,78,0.12); }
+    .nm-input::placeholder { color: var(--text-dim); }
+
+    .nm-textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--bg-raise); border: 1px solid rgba(180,165,145,0.3);
+      color: var(--text-muted); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; font-size: 0.85rem;
+      box-shadow: var(--nm-out); transition: all 0.2s; flex-shrink: 0;
+    }
+    .icon-btn:hover { color: var(--red); border-color: rgba(192,57,43,0.3); }
+    .icon-btn:active { box-shadow: var(--nm-in); }
+
+    .add-drug-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-raise); border: 2px dashed rgba(10,110,78,0.3);
+      border-radius: 12px; padding: 12px 18px; color: var(--accent);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+      width: 100%; justify-content: center; font-family: inherit;
+      box-shadow: none;
+    }
+    .add-drug-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+
+    .order-divider {
+      height: 1px; background: rgba(180,165,145,0.3); margin: 22px 0;
+    }
+
+    .order-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .field label {
+      display: block; font-size: 0.73rem; font-weight: 700; color: var(--text-muted);
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    .order-info-box {
+      background: var(--accent-light); border: 1px solid rgba(10,110,78,0.2);
+      border-radius: 12px; padding: 14px 16px; font-size: 0.82rem;
+      color: var(--accent); line-height: 1.6; margin-bottom: 20px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .order-info-box i { flex-shrink: 0; margin-top: 2px; }
+
+    .wa-send-btn {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px;
+      background: linear-gradient(135deg, var(--wa), #1ebe5c);
+      border: none; color: #fff; padding: 16px; border-radius: 16px;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 6px 22px rgba(37,211,102,0.4); transition: all 0.3s;
+      text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit;
+    }
+    .wa-send-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,0.55); }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--bg); }
+
+    .steps {
+      display: flex; flex-direction: column; gap: 0;
+      max-width: 580px; margin: 0 auto; position: relative;
+    }
+
+    .steps::before {
+      content: ''; position: absolute; left: 23px; top: 24px; bottom: 24px;
+      width: 2px; background: linear-gradient(to bottom, var(--accent), transparent); opacity: 0.35;
+    }
+
+    .step { display: flex; gap: 22px; padding: 20px 0; }
+
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-light), rgba(10,110,78,0.05));
+      border: 1px solid rgba(10,110,78,0.25); display: flex;
+      align-items: center; justify-content: center; font-size: 1.1rem;
+      color: var(--accent); flex-shrink: 0; box-shadow: var(--nm-out);
+    }
+
+    .step-content h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 5px; }
+    .step-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg-raise); }
+
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: var(--bg-raise); border-radius: 20px; padding: 26px 22px;
+      text-align: center; box-shadow: var(--nm-out); transition: transform 0.3s;
+    }
+    .contact-card:hover { transform: translateY(-3px); }
+
+    .contact-icon {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-light), rgba(10,110,78,0.05));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--accent); margin: 0 auto 16px;
+      box-shadow: var(--nm-out);
+    }
+
+    .contact-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+    .contact-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+    .contact-card a { color: var(--accent); text-decoration: none; }
+
+    /* ── TRUST BADGE ── */
+    .trust-strip {
+      background: var(--accent); padding: 20px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.9);
+    }
+
+    .trust-item i { font-size: 1.1rem; color: rgba(255,255,255,0.75); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid rgba(180,165,145,0.3);
+      padding: 36px 24px; text-align: center;
+    }
+
+    .footer-brand {
+      font-size: 1.3rem; font-weight: 800; color: var(--accent);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    footer p { color: var(--text-muted); font-size: 0.82rem; }
+
+    /* ── CHAT BOT ── */
+    #chat-widget { position: fixed; bottom: 26px; right: 22px; z-index: 999; }
+
+    .chat-toggle {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none; color: #fff; font-size: 1.3rem; cursor: pointer;
+      box-shadow: 0 6px 22px var(--accent-glow); transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-toggle:hover { transform: scale(1.08); }
+
+    .chat-badge {
+      position: absolute; top: -3px; right: -3px;
+      width: 18px; height: 18px; border-radius: 50%; background: var(--red);
+      font-size: 0.65rem; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--bg);
+    }
+
+    .chat-panel {
+      position: absolute; bottom: 72px; right: 0; width: 330px; max-height: 480px;
+      background: rgba(235,230,221,0.97); border: 1px solid rgba(180,165,145,0.4);
+      border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,0.2), var(--nm-out);
+      backdrop-filter: blur(20px); display: flex; flex-direction: column; overflow: hidden;
+      transform-origin: bottom right;
+      transform: scale(0.85) translateY(10px); opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .chat-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+    .chat-head {
+      padding: 16px 18px; background: linear-gradient(135deg, rgba(10,110,78,0.1), rgba(10,110,78,0.03));
+      border-bottom: 1px solid rgba(180,165,145,0.3);
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff; flex-shrink: 0;
+    }
+
+    .chat-head-info { flex: 1; }
+    .chat-head-name { font-size: 0.88rem; font-weight: 700; }
+    .chat-head-status { font-size: 0.72rem; color: var(--green); display: flex; align-items: center; gap: 5px; }
+    .chat-head-status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; }
+
+    .chat-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; padding: 4px; transition: color 0.2s; }
+    .chat-close:hover { color: var(--text); }
+
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 300px; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: rgba(10,110,78,0.25); border-radius: 2px; }
+
+    .msg { display: flex; flex-direction: column; max-width: 84%; }
+    .msg.bot { align-self: flex-start; }
+    .msg.user { align-self: flex-end; }
+
+    .msg-bubble { padding: 10px 14px; border-radius: 16px; font-size: 0.82rem; line-height: 1.5; }
+    .msg.bot .msg-bubble { background: var(--bg-raise); box-shadow: var(--nm-out); border-bottom-left-radius: 4px; color: var(--text); }
+    .msg.user .msg-bubble { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-bottom-right-radius: 4px; font-weight: 500; }
+
+    .msg-time { font-size: 0.64rem; color: var(--text-dim); margin-top: 4px; padding: 0 2px; }
+    .msg.user .msg-time { align-self: flex-end; }
+
+    .chat-wa-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, var(--wa), #1ebe5c);
+      color: #fff; border: none; padding: 8px 14px; border-radius: 10px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-top: 6px;
+      transition: all 0.3s; text-decoration: none;
+    }
+    .chat-wa-link:hover { transform: translateY(-1px); }
+
+    .quick-replies { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .qr-btn {
+      background: var(--bg-raise); border: 1px solid rgba(10,110,78,0.2);
+      color: var(--accent); padding: 5px 12px; border-radius: 50px;
+      font-size: 0.73rem; cursor: pointer; transition: all 0.2s;
+      box-shadow: var(--nm-out); font-family: inherit;
+    }
+    .qr-btn:hover { background: var(--accent-light); }
+
+    .chat-input-row { padding: 12px 14px; border-top: 1px solid rgba(180,165,145,0.3); display: flex; gap: 8px; align-items: flex-end; }
+
+    .chat-inp {
+      flex: 1; background: var(--bg-press); border: 1px solid rgba(180,165,145,0.4);
+      border-radius: 20px; padding: 10px 14px; color: var(--text);
+      font-size: 0.82rem; outline: none; resize: none; font-family: inherit;
+      max-height: 80px; box-shadow: var(--nm-in); transition: border-color 0.3s;
+    }
+    .chat-inp:focus { border-color: var(--accent); }
+    .chat-inp::placeholder { color: var(--text-dim); }
+
+    .chat-send {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none; color: #fff; font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; box-shadow: 0 3px 10px var(--accent-glow); flex-shrink: 0;
+    }
+    .chat-send:hover { transform: scale(1.08); }
+
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 12px 14px; background: var(--bg-raise); border-radius: 16px; border-bottom-left-radius: 4px; width: fit-content; box-shadow: var(--nm-out); }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); animation: typingBounce 1.2s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-5px);opacity:1} }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 100px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(30,26,20,0.9); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px; padding: 11px 24px; font-size: 0.84rem; color: #fff;
+      opacity: 0; transition: all 0.35s; pointer-events: none;
+      backdrop-filter: blur(14px); white-space: nowrap; z-index: 990;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── FADE IN ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+      .hero-card { display: none; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 580px) {
+      section { padding: 50px 18px; }
+      .order-card { padding: 24px 18px; }
+      .field-row { grid-template-columns: 1fr; }
+      .drug-row { grid-template-columns: 1fr auto; }
+      .drug-row .nm-input:nth-child(2) { display: none; }
+      .chat-panel { width: 290px; right: -4px; }
+      .trust-strip { gap: 20px; }
+    }
+    @media (max-width: 400px) {
+      .chat-panel { width: calc(100vw - 24px); right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-brand-icon"><i class="fa-solid fa-capsules"></i></div>
+    PharmaCare
+  </div>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#order">Order Meds</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">
+    <i class="fa-solid fa-prescription-bottle-medical"></i> Order Now
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner max-w">
+    <div>
+      <div class="hero-tag"><i class="fa-solid fa-shield-heart"></i> Trusted Healthcare</div>
+      <h1>Your Health,<br/><span class="hl">Our Priority.</span></h1>
+      <p>
+        Authentic medications dispensed with care, professionalism, and expert pharmacist guidance.
+        Order your prescriptions securely — quick delivery, transparent communication.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">
+          <i class="fa-solid fa-prescription-bottle-medical"></i> Order Medication
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">
+          <i class="fa-solid fa-microscope"></i> Our Medications
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-card fade-in">
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <div class="stat-icon"><i class="fa-solid fa-vial"></i></div>
+          <div class="stat-val">1000+</div>
+          <div class="stat-label">Medications</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="stat-val">Same Day</div>
+          <div class="stat-label">Delivery</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+          <div class="stat-val">Licensed</div>
+          <div class="stat-label">Pharmacists</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="stat-val">6AM–6PM</div>
+          <div class="stat-label">Mon – Sat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-item"><i class="fa-solid fa-certificate"></i> NAFDAC Compliant Medications</div>
+  <div class="trust-item"><i class="fa-solid fa-lock"></i> Secure Private Orders</div>
+  <div class="trust-item"><i class="fa-solid fa-user-doctor"></i> Expert Pharmacist Guidance</div>
+  <div class="trust-item"><i class="fa-solid fa-truck-fast"></i> Fast Local Delivery</div>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header fade-in">
+    <span class="section-label"><i class="fa-solid fa-pills"></i> Medications</span>
+    <h2 class="section-title">Genuine, Verified Medications</h2>
+    <p class="section-sub">All medications stocked at PharmaCare are sourced from certified distributors and stored under optimal conditions.</p>
+  </div>
+
+  <div class="slideshow-wrap fade-in">
+    <div class="slideshow-outer">
+      <div class="slideshow-inner" id="slideshow">
+        <div class="slide active" data-caption="Professional medication dispensing — precise, careful, trusted">
+          <img src="https://i.postimg.cc/HLwQs7xt/Dispensed-Medication.png" alt="Dispensed Medication" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Vitamin C — essential daily immunity support">
+          <img src="https://i.postimg.cc/CKPQ7tCZ/Vitamin-C.jpg" alt="Vitamin C" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Paracetamol 500mg — reliable relief from pain and fever">
+          <img src="https://i.postimg.cc/RFWbDRG3/Paracetamol-500mg.jpg" alt="Paracetamol 500mg" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Nasal Spray — fast-acting nasal congestion relief">
+          <img src="https://i.postimg.cc/B6jwVgNZ/Nasal-Spray.png" alt="Nasal Spray" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Ibuprofen 200mg — anti-inflammatory and pain relief">
+          <img src="https://i.postimg.cc/HxrPh23V/Ibuprofen-200mg.jpg" alt="Ibuprofen 200mg" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Cough Syrup — soothing relief for persistent coughs">
+          <img src="https://i.postimg.cc/857n0Hw5/Cough-Syrup.jpg" alt="Cough Syrup" loading="lazy" />
+        </div>
+        <div class="slide" data-caption="Amoxicillin 500mg — broad-spectrum antibiotic (prescription required)">
+          <img src="https://i.postimg.cc/FRYnBZGz/Amoxicillin-500mg.png" alt="Amoxicillin 500mg" loading="lazy" />
+        </div>
+        <div class="slide-progress" id="slideProgress"></div>
+        <div class="slide-caption" id="slideCaption">Professional medication dispensing — precise, careful, trusted</div>
+      </div>
+    </div>
+    <div class="slide-nav">
+      <button class="slide-btn" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="slide-dots" id="slideDots"></div>
+      <button class="slide-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header fade-in">
+    <span class="section-label"><i class="fa-solid fa-star"></i> Why PharmaCare</span>
+    <h2 class="section-title">Healthcare You Can Trust</h2>
+    <p class="section-sub">We go beyond dispensing medications — we provide guided, professional healthcare support for every patient.</p>
+  </div>
+
+  <div class="features-grid max-w">
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-shield-heart"></i></div>
+      <h3>Certified &amp; Authentic</h3>
+      <p>Every product on our shelves is NAFDAC-certified and procured directly from licensed distributors. No counterfeits. No shortcuts.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-user-doctor"></i></div>
+      <h3>Pharmacist Consultation</h3>
+      <p>Our licensed pharmacists are available to advise on dosage, drug interactions, and alternative options before your order is processed.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+      <h3>Fast Delivery</h3>
+      <p>Orders are processed promptly and dispatched for same-day delivery within our service area. Your health cannot wait.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+      <h3>Private &amp; Confidential</h3>
+      <p>All medication orders are handled with absolute discretion. Your medical information is never shared or stored beyond the transaction.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-pills"></i></div>
+      <h3>Wide Medication Range</h3>
+      <p>From over-the-counter essentials to prescription medications, we maintain a comprehensive inventory to serve your every healthcare need.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon"><i class="fa-solid fa-naira-sign"></i></div>
+      <h3>Transparent Pricing</h3>
+      <p>Our pharmacist confirms pricing during your WhatsApp consultation — no hidden charges, no surprises at delivery.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="section-header fade-in">
+    <span class="section-label"><i class="fa-solid fa-prescription-bottle-medical"></i> Order</span>
+    <h2 class="section-title">Request Your Medications</h2>
+    <p class="section-sub">List the medications you need, provide your details, and send your request. Our pharmacist will confirm availability and pricing via WhatsApp.</p>
+  </div>
+
+  <div class="order-container">
+    <div class="order-card fade-in">
+      <div class="order-intro">
+        <div class="icon-circle"><i class="fa-solid fa-pills"></i></div>
+        <h3>Medication Request Form</h3>
+        <p>Enter each medication you need along with quantity. Our pharmacist will review and confirm all details during WhatsApp consultation.</p>
+      </div>
+
+      <div class="order-info-box">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>
+          For prescription medications (e.g. antibiotics), please have your prescription ready. Our pharmacist may request a copy via WhatsApp before dispensing.
+        </span>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <label style="font-size:0.73rem;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;">
+          Medications Requested
+        </label>
+        <span style="font-size:0.73rem;color:var(--text-dim);">
+          <i class="fa-solid fa-circle-info"></i> Include drug name, strength, and type (tablet/syrup/etc.)
+        </span>
+      </div>
+
+      <div id="drug-rows"></div>
+
+      <button class="add-drug-btn" onclick="addDrugRow()">
+        <i class="fa-solid fa-plus"></i> Add Another Medication
+      </button>
+
+      <div class="order-divider"></div>
+
+      <div class="order-fields">
+        <div class="field-row">
+          <div class="field">
+            <label>Your Name <span style="color:var(--red)">*</span></label>
+            <input type="text" class="nm-input" id="pat-name" placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label>Phone Number <span style="color:var(--red)">*</span></label>
+            <input type="tel" class="nm-input" id="pat-phone" placeholder="+234 800 000 0000" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Delivery Address <span style="color:var(--red)">*</span></label>
+          <input type="text" class="nm-input" id="pat-address" placeholder="House number, street, area, city" />
+        </div>
+        <div class="field">
+          <label>Additional Notes <span style="color:var(--text-dim);font-weight:400;text-transform:none;letter-spacing:0;">(prescription details, medical conditions, allergies)</span></label>
+          <textarea class="nm-input nm-textarea" id="pat-notes" placeholder="e.g. I have a prescription for Amoxicillin. I am allergic to penicillin derivatives..."></textarea>
+        </div>
+      </div>
+
+      <button class="wa-send-btn" onclick="sendWhatsAppOrder()">
+        <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Send Medication Request via WhatsApp
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-header fade-in">
+    <span class="section-label"><i class="fa-solid fa-list-check"></i> Process</span>
+    <h2 class="section-title">How Ordering Works</h2>
+    <p class="section-sub">Getting your medications from PharmaCare is simple, secure, and designed around your convenience.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step fade-in">
+      <div class="step-num"><i class="fa-solid fa-keyboard"></i></div>
+      <div class="step-content">
+        <h4>List Your Medications</h4>
+        <p>Enter the name, strength, and quantity of each medication you require in the order form above.</p>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num"><i class="fa-solid fa-user-pen"></i></div>
+      <div class="step-content">
+        <h4>Fill In Your Details</h4>
+        <p>Provide your name, phone number, delivery address, and any relevant medical notes or prescription details.</p>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="step-content">
+        <h4>Send via WhatsApp</h4>
+        <p>Tap the WhatsApp button. Your complete medication request is formatted and sent directly to our pharmacist.</p>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num"><i class="fa-solid fa-user-doctor"></i></div>
+      <div class="step-content">
+        <h4>Pharmacist Consultation</h4>
+        <p>Our pharmacist reviews your request, confirms availability, communicates pricing, and may request a prescription if required.</p>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num"><i class="fa-solid fa-truck-fast"></i></div>
+      <div class="step-content">
+        <h4>Delivery to Your Door</h4>
+        <p>Once confirmed and payment arranged, your medications are carefully packaged and dispatched for prompt delivery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-in">
+    <span class="section-label"><i class="fa-solid fa-address-book"></i> Contact</span>
+    <h2 class="section-title">Reach PharmaCare</h2>
+    <p class="section-sub">Our team is available six days a week. Reach us by phone or WhatsApp for the fastest response.</p>
+  </div>
+
+  <div class="contact-grid max-w">
+    <div class="contact-card fade-in">
+      <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <h4>WhatsApp</h4>
+      <p><a href="https://wa.me/2349070637635" target="_blank">+234 907 063 7635</a></p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+      <h4>Phone</h4>
+      <p><a href="tel:+2349070637635">+234 907 063 7635</a></p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+      <h4>Operating Hours</h4>
+      <p>Monday – Saturday<br/>6:00 AM – 6:00 PM</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+      <h4>Location</h4>
+      <p>Nigeria<br/>Contact us for exact address</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand"><i class="fa-solid fa-capsules"></i> PharmaCare</div>
+  <p>Your trusted partner in healthcare and medication delivery.</p>
+  <p style="margin-top:6px;font-size:0.73rem;color:var(--text-dim);">
+    <i class="fa-regular fa-copyright"></i> 2025 PharmaCare. All rights reserved.
+    &nbsp;|&nbsp; Licensed Pharmacy Services &nbsp;|&nbsp; Nigeria
+  </p>
+</footer>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- CHAT BOT -->
+<div id="chat-widget">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-avatar"><i class="fa-solid fa-user-doctor"></i></div>
+      <div class="chat-head-info">
+        <div class="chat-head-name">PharmaCare Support</div>
+        <div class="chat-head-status">Pharmacist Online</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <textarea class="chat-inp" id="chatInput" placeholder="Ask about medications, dosage, availability..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+      <button class="chat-send" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <div style="position:relative;">
+    <button class="chat-toggle" onclick="toggleChat()" id="chatToggle">
+      <i class="fa-solid fa-comment-medical"></i>
+    </button>
+    <span class="chat-badge" id="chatBadge">1</span>
+  </div>
+</div>
+
+<script>
+const WA = '2349070637635';
+let drugRowCount = 0;
+let chatOpen = false;
+let botGreeted = false;
+
+// ── SLIDESHOW ──
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('slideDots');
+const captionEl = document.getElementById('slideCaption');
+const progressEl = document.getElementById('slideProgress');
+let current = 0;
+let slideTimer, progressInterval, progressVal = 0;
+const DURATION = 4500;
+
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  dotsEl.children[current].classList.remove('active');
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dotsEl.children[current].classList.add('active');
+  captionEl.textContent = slides[current].dataset.caption || '';
+  resetProg();
+}
+
+function changeSlide(d) { goTo(current + d); }
+
+function resetProg() {
+  progressVal = 0;
+  progressEl.style.width = '0%';
+  clearInterval(progressInterval);
+  progressInterval = setInterval(() => {
+    progressVal += 100 / (DURATION / 80);
+    if (progressVal >= 100) progressVal = 100;
+    progressEl.style.width = progressVal + '%';
+  }, 80);
+  clearTimeout(slideTimer);
+  slideTimer = setTimeout(() => goTo(current + 1), DURATION);
+}
+resetProg();
+
+// ── DRUG ROWS ──
+function addDrugRow(defaultName = '', defaultQty = '') {
+  drugRowCount++;
+  const c = document.getElementById('drug-rows');
+  const row = document.createElement('div');
+  row.className = 'drug-row';
+  row.dataset.drid = drugRowCount;
+  row.innerHTML = `
+    <input type="text" class="nm-input drug-name" placeholder="Drug name, strength, form (e.g. Amoxicillin 500mg capsules)" value="${defaultName}" />
+    <input type="text" class="nm-input drug-qty" placeholder="Qty (e.g. 2 packs)" value="${defaultQty}" style="min-width:90px;" />
+    <button class="icon-btn" onclick="this.closest('[data-drid]').remove()" title="Remove medication">
+      <i class="fa-solid fa-trash"></i>
+    </button>`;
+  c.appendChild(row);
+}
+
+// Init with 2 rows
+addDrugRow(); addDrugRow();
+
+// ── WHATSAPP ORDER ──
+function sendWhatsAppOrder() {
+  const name = document.getElementById('pat-name').value.trim();
+  const phone = document.getElementById('pat-phone').value.trim();
+  const address = document.getElementById('pat-address').value.trim();
+  const notes = document.getElementById('pat-notes').value.trim();
+
+  const drugs = Array.from(document.querySelectorAll('.drug-row')).map(row => ({
+    name: row.querySelector('.drug-name').value.trim(),
+    qty: row.querySelector('.drug-qty').value.trim(),
+  })).filter(d => d.name);
+
+  if (drugs.length === 0) { showToast('Please enter at least one medication'); return; }
+  if (!name) { showToast('Please enter your name'); document.getElementById('pat-name').focus(); return; }
+  if (!phone) { showToast('Please enter your phone number'); document.getElementById('pat-phone').focus(); return; }
+  if (!address) { showToast('Please enter your delivery address'); document.getElementById('pat-address').focus(); return; }
+
+  const drugList = drugs.map((d, i) => `  ${i+1}. ${d.name}${d.qty ? ' — Qty: ' + d.qty : ''}`).join('\n');
+
+  const msg = `Hello PharmaCare,\n\nI would like to place a medication order.\n\n*Medications Requested:*\n${drugList}\n\n*Patient Details:*\nName: ${name}\nPhone: ${phone}\nDelivery Address: ${address}${notes ? '\n\nNotes / Prescription Info: ' + notes : ''}\n\nKindly confirm availability, pricing, and delivery timeline at your earliest convenience. Thank you.`;
+
+  window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── CHAT BOT ──
+const pharmaBot = {
+  greet: ['hello','hi','hey','good morning','good evening','howdy'],
+  hours: ['hours','when','open','close','time','available'],
+  order: ['order','buy','purchase','how to order','place order'],
+  delivery: ['deliver','location','area','where','bring','distance'],
+  prescription: ['prescription','prescribed','doctor','prescription required'],
+  availability: ['available','stock','have','do you sell','do you carry'],
+  payment: ['payment','pay','transfer','cash','how much','price'],
+  contact: ['contact','phone','number','whatsapp','reach'],
+  antibiotics: ['antibiotic','amoxicillin','penicillin','augmentin','metronidazole'],
+  painkiller: ['pain','paracetamol','ibuprofen','panadol','aspirin','relief'],
+  storage: ['storage','store','keep','refrigerate','temperature'],
+};
+
+const botRes = {
+  greet: "Hello and welcome to PharmaCare. I am your virtual pharmacy assistant. How may I assist you with your medication or healthcare enquiry today?",
+  hours: "PharmaCare operates Monday to Saturday, from 6:00 AM to 6:00 PM. Orders placed outside these hours will be reviewed and responded to on the next working day.",
+  order: "To place a medication order, simply scroll to the Order section on this page, enter each medication name and quantity, fill in your personal details, and tap the WhatsApp button. Your request is sent directly to our pharmacist for processing.",
+  delivery: "We offer delivery within our local service area in Nigeria. Upon receiving your order via WhatsApp, our pharmacist will confirm whether delivery is available to your specific location.",
+  prescription: "Certain medications — particularly antibiotics and controlled substances — require a valid prescription before dispensing. Our pharmacist will inform you if a prescription is required and may request a copy via WhatsApp before processing your order.",
+  availability: "We stock a wide range of over-the-counter and prescription medications. Please send your specific medication request via WhatsApp and our pharmacist will confirm availability promptly.",
+  payment: "Payment details and pricing are communicated by our pharmacist during your WhatsApp consultation. We do not list fixed prices online as they may vary based on brand, quantity, and current stock.",
+  contact: "You can reach us on WhatsApp or by phone at +234 907 063 7635. Our pharmacist is available Monday to Saturday from 6:00 AM to 6:00 PM.",
+  antibiotics: "Antibiotics such as Amoxicillin and Metronidazole are available at PharmaCare. Please note that antibiotics require a valid prescription. Our pharmacist will guide you through the verification process.",
+  painkiller: "Common analgesics such as Paracetamol, Ibuprofen, and Aspirin are available over-the-counter at PharmaCare. Please use the order form to submit your request.",
+  storage: "All medications at PharmaCare are stored under manufacturer-recommended conditions, including temperature-controlled environments where required. Medications that require refrigeration are communicated at the time of dispensing.",
+};
+
+function matchIntent(msg) {
+  const m = msg.toLowerCase();
+  for (const [intent, words] of Object.entries(pharmaBot)) {
+    if (words.some(w => m.includes(w))) return intent;
+  }
+  return null;
+}
+
+function timeNow() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+
+function addMsg(text, role, withWA = false, waQ = '') {
+  const c = document.getElementById('chatMessages');
+  const el = document.createElement('div');
+  el.className = 'msg ' + role;
+  let html = `<div class="msg-bubble">${text}</div>`;
+  if (withWA) {
+    const enc = encodeURIComponent('Hello PharmaCare, I need assistance with: ' + waQ);
+    html += `<a class="chat-wa-link" href="https://wa.me/${WA}?text=${enc}" target="_blank">
+      <i class="fa-brands fa-whatsapp"></i> Contact Pharmacist
+    </a>`;
+  }
+  html += `<div class="msg-time">${timeNow()}</div>`;
+  el.innerHTML = html;
+  c.appendChild(el);
+  c.scrollTop = c.scrollHeight;
+}
+
+function showTyping() {
+  const c = document.getElementById('chatMessages');
+  const el = document.createElement('div');
+  el.className = 'msg bot'; el.id = 'typingInd';
+  el.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  c.appendChild(el); c.scrollTop = c.scrollHeight;
+}
+
+function removeTyping() { const el = document.getElementById('typingInd'); if (el) el.remove(); }
+
+function botReply(text) {
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    const intent = matchIntent(text);
+    if (intent && botRes[intent]) {
+      addMsg(botRes[intent], 'bot');
+    } else {
+      addMsg(
+        "Thank you for your enquiry. Your question falls outside the scope of what I am able to address through this channel. I would kindly recommend reaching out to our pharmacist directly — they will be best positioned to assist you with accurate and personalised guidance.",
+        'bot', true, text
+      );
+    }
+  }, 900 + Math.random() * 500);
+}
+
+function sendChatMessage() {
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  inp.value = '';
+  inp.style.height = 'auto';
+  botReply(text);
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const panel = document.getElementById('chatPanel');
+  const toggle = document.getElementById('chatToggle');
+  const badge = document.getElementById('chatBadge');
+  panel.classList.toggle('open', chatOpen);
+  toggle.innerHTML = chatOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-comment-medical"></i>';
+  badge.style.display = chatOpen ? 'none' : 'flex';
+
+  if (chatOpen && !botGreeted) {
+    botGreeted = true;
+    setTimeout(() => {
+      addMsg("Welcome to PharmaCare's support. I am your virtual pharmacy assistant, here to help you with medication enquiries, order guidance, and general healthcare questions.", 'bot');
+      setTimeout(() => {
+        const c = document.getElementById('chatMessages');
+        const qr = document.createElement('div');
+        qr.className = 'msg bot';
+        qr.innerHTML = `
+          <div class="msg-bubble">What can I help you with today?</div>
+          <div class="quick-replies">
+            <button class="qr-btn" onclick="qrClick('How do I place a medication order?')">How to order</button>
+            <button class="qr-btn" onclick="qrClick('What are your operating hours?')">Hours</button>
+            <button class="qr-btn" onclick="qrClick('Do I need a prescription?')">Prescriptions</button>
+            <button class="qr-btn" onclick="qrClick('Do you deliver to my area?')">Delivery</button>
+            <button class="qr-btn" onclick="qrClick('How does payment work?')">Payment</button>
+          </div>
+          <div class="msg-time">${timeNow()}</div>`;
+        c.appendChild(qr); c.scrollTop = c.scrollHeight;
+      }, 700);
+    }, 400);
+  }
+}
+
+function qrClick(text) { addMsg(text, 'user'); botReply(text); }
+
+// ── FADE IN ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// ── CHAT TEXTAREA AUTO-RESIZE ──
+document.getElementById('chatInput').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+});
+</script>
+</body>
+</html>
